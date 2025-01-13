@@ -12,14 +12,24 @@ function getStr($string, $start, $end) {
     return $str[0];
 }
 
-function GenerateEmails(){
+function GenerateUsers(){
     $rand = rand(10, 10000000000);
     $names = ['haika', 'kelly', 'jessica', 'lucas', 'joao', 'maria', 'pedro', 'ana', 'carlos', 'julia', 'fernanda', 'gabriel', 'isabela', 'henrique', 'lara', 'matheus', 'natalia', 'olivia', 'pedro', 'queiroz', 'rebecca', 'samuel', 'thais', 'vinicius', 'yasmin', 'zoe'];
+    $sub_names = ['silva', 'franco', 'santos', 'oliveira', 'rodrigues', 'sousa', 'lima', 'gomes', 'ferreira', 'sousa', 'rodrigues', 'sousa', 'lima', 'gomes', 'ferreira', 'sousa', 'rodrigues', 'sousa', 'lima', 'gomes', 'ferreira', 'sousa', 'rodrigues', 'sousa', 'lima', 'gomes', 'ferreira', 'sousa', 'rodrigues', 'sousa', 'lima', 'gomes', 'ferreira'];
     $name = $names[rand(0, count($names) - 1)];
-    return $name.$rand.'@gmail.com';
+    $sub_name = $sub_names[rand(0, count($sub_names) - 1)];
+    $name_full = "$name $sub_name";
+    $email = $name.$rand.'@gmail.com';
+
+    return [
+        'email' => $email,
+        'name_full' => $name_full,
+        'name' => $name,
+        'sub_name' => $sub_name
+    ];
 }
 
-$email = GenerateEmails();
+$users = GenerateUsers();
 $cookiecount = "woo_".rand(10, 10000000000)."";
 
 $c = curl_init();
@@ -72,6 +82,8 @@ curl_setopt($c, CURLOPT_HTTPHEADER, array(
 $checkout = curl_exec($c);
 
 $nonce = getStr($checkout, 'name="woocommerce-process-checkout-nonce" value="','"');
+$email = $users['email'];
+$nome = $users['name_full'];
 
 // if (preg_match('/name="rede_card_nonce"[^>]*value="([^"]+)"/', $checkout, $matches)) {
 //   $rede_card_nonce = $matches[1];
