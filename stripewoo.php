@@ -21,6 +21,17 @@ function GenerateEmails(){
     return $name.$rand.'@gmail.com';
 }
 
+if(empty($cc) || empty($mes) || empty($ano) || empty($cvv)){
+    echo '<span class="badge badge-danger">🧨 # ERRO </span> » ['.$cc.'|'.$mes.'|'.$ano.'|'.$cvv.'] » ['.$informacoes.'] » <span class="badge badge-danger">[Erro Interno] @Haika</span><br>';
+    exit();
+} if (strlen($cc) != 16 || strlen($mes) != 2 || strlen($ano) != 4 || strlen($cvv) != 3){
+    echo '<span class="badge badge-danger">🧨 # ERRO </span> » ['.$cc.'|'.$mes.'|'.$ano.'|'.$cvv.'] » ['.$informacoes.'] » <span class="badge badge-danger">[Erro Interno] @Haika</span><br>';
+    exit();
+} if (is_numeric($cc) || is_numeric($mes) || is_numeric($ano) || is_numeric($cvv)){
+    echo '<span class="badge badge-danger">🧨 # ERRO </span> » ['.$cc.'|'.$mes.'|'.$ano.'|'.$cvv.'] » ['.$informacoes.'] » <span class="badge badge-danger">[Erro Interno] @Haika</span><br>';
+    exit();
+}
+
 $email = GenerateEmails();
 $cookiecount = "woo_".rand(10, 10000000000)."";
 
