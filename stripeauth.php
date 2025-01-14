@@ -37,7 +37,7 @@ if(empty($cc) || empty($mes) || empty($ano) || empty($cvv)){
 } if (strlen($cc) != 16 || strlen($mes) != 2 || strlen($ano) != 4 || strlen($cvv) != 3){
     echo '<span class="badge badge-danger">🧨 # ERRO </span> » ['.$cc.'|'.$mes.'|'.$ano.'|'.$cvv.'] » ['.$informacoes.'] » <span class="badge badge-danger">[Erro Interno] @Haika</span><br>';
     exit();
-} if (is_numeric($cc) || is_numeric($mes) || is_numeric($ano) || is_numeric($cvv)){
+} if (!is_numeric($cc) || !is_numeric($mes) || !is_numeric($ano) || !is_numeric($cvv)){
     echo '<span class="badge badge-danger">🧨 # ERRO </span> » ['.$cc.'|'.$mes.'|'.$ano.'|'.$cvv.'] » ['.$informacoes.'] » <span class="badge badge-danger">[Erro Interno] @Haika</span><br>';
     exit();
 }
